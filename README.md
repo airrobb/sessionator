@@ -1,0 +1,2 @@
+# sessionator
+Koa with sessions
