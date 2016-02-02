@@ -1,0 +1,31 @@
+{
+  "name": "sessionator",
+  "version": "1.0.0",
+  "description": "Koa with sessions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aaronmrobb/sessionator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aaronmrobb/sessionator/issues"
+  },
+  "homepage": "https://github.com/aaronmrobb/sessionator#readme",
+  "dependencies": {
+    "handlebars": "^4.0.5",
+    "knex": "^0.9.0",
+    "koa": "^1.1.2",
+    "koa-bodyparser": "^2.0.1",
+    "koa-generic-session": "^1.10.1",
+    "koa-passport": "^1.2.0",
+    "koa-render": "^0.2.1",
+    "koa-router": "^5.3.0",
+    "passport-local": "^1.0.0",
+    "pg": "^4.4.4"
+  }
+}
