@@ -1,30 +1,34 @@
 const koa = require('koa'),
       app = koa()
+const knex = require('koa-knex')
+const passport = require('koa-passport')
+const session = require('koa-generic-session')
+const bodyParser = require('koa-bodyparser')
+const views = require('koa-render')
+const Router = require('koa-router')
+const public = new Router()
+const users = new Router()
+const posts = new Router()
+
 
 app.proxy = true
 
-const session = require('koa-generic-session')
 app.keys = ['']
 app.use(session())
 
-const bodyParser = require('koa-bodyparser')
 app.use(bodyParser())
 
 require('./auth')
-const passport = require('koa-passport')
 app.use(passport.initialize())
 app.use(passport.session())
 
-const views = require('koa-render')
 
 app.use(views('./views', {
   map: { html: 'handlebars'},
   cache: false
 }))
 
-const Router = require('koa-router')
-
-const public = new Router()
+/* Public Area */
 
 public.get('/', function *() {
   this.body = yield this.render('login')
@@ -33,7 +37,7 @@ public.get('/', function *() {
 
 public.post('/login',
   passport.authenticate('local', {
-    successRedirect: '/app',
+    successRedirect: '/users',
     failureRedirect: '/'
   })
 )
@@ -55,13 +59,17 @@ app.use(function*(next) {
   }
 })
 
-
-const secured = new Router()
-
-secured.get('/app', function *() {
+users.get('/users', function*(next) {
   this.body = yield this.render('app')
 })
 
-app.use(secured.middleware())
+posts.get('/:pid', function*(next){
+  console.log(this.params.pid)
+  this.body = yield this.render('posts')
+})
+
+users.use('/users/:uid/posts', posts.routes(), posts.allowedMethods())
+
+app.use(users.middleware())
 
 app.listen(process.env.PORT || 3000)
